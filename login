@@ -10,10 +10,10 @@ String password = "o";
 
 boolean LoginOk = Login(username, password);
 if(LoginOk== true && username.equals("michaela")) {
-  exercise3();
+  exercise1();
 }
 else if(LoginOk== true && username.equals("mr")) {
-  exercise1();
+  exercise9();
 }
 }
 
@@ -104,4 +104,31 @@ ellipse(coorW, coorQ, sizec, sized);
 coorW = coorW +5;
 sizec = sizec +2;
 sized = sized +2;
+}
+
+void exercise9() {
+  IntDict counts;
+  
+  counts = new IntDict();
+
+  String[] lines = loadStrings("/Users/michaelajones/Documents/Processing/hamlet.txt");
+  String allwords = join(lines, "/n");
+  String[] tokens = splitTokens(allwords, "/n ,;.?!");
+  //printArray(tokens)
+  for (int i = 0; i<tokens.length; i++) {
+    String word = tokens[i].toLowerCase();
+    if (counts.hasKey(word)) {
+      counts.increment(word);
+    } else {
+      counts.set(word, 1 );
+    }
+  }
+  String[] keys = counts.keyArray();
+  for (String k : keys) {
+    int count = counts.get(k);
+    textSize(count);
+    float x = random(width);
+    float y = random (height);
+    text (k, x, y);
+  }
 }
