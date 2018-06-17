@@ -1,0 +1,171 @@
+import controlP5.*;
+ 
+ControlP5 cp5;
+
+String username, password;
+
+
+
+void setup() {
+  size(600, 600);
+  background(200);
+  cp5 = new ControlP5(this);
+  cp5.addTextfield("username").setPosition(200, 100).setSize(200, 40).setAutoClear(false);
+  cp5.addTextfield("password").setPosition(200, 170).setSize(200, 40).setAutoClear(false);
+  cp5.addBang("Submit").setPosition(450, 170).setSize(80, 40);
+  username=""; 
+  password="";
+}
+
+void Submit() {
+  print("the following text was submitted :");
+  username = cp5.get(Textfield.class,"username").getText();
+  password = cp5.get(Textfield.class,"password").getText();
+  print(" textInput 1 = " + username);
+  print(" textInput 2 = " + password);
+  println();
+  
+ 
+}
+
+
+
+void draw () {
+//println("username"+username);
+//println("password:"+password);
+boolean LoginOk = Login(username, password);
+if(LoginOk== true && username.equals("michaela")) {
+  print("logingok:"+username);
+  cp5.hide();
+  redraw();
+  exercise3();
+}
+else if(LoginOk== true && username.equals("mr")) {
+ cp5.hide();
+ redraw();
+  exercise10();
+}
+}
+
+
+boolean Login(String user, String pass){
+  String[] userpass = loadStrings("/Users/michaelajones/Documents/Processing/password.log");
+  //print(userpass[1]);
+  user="mr";
+  for(int i =0; i < userpass.length; i++) {
+  String[] list = split(userpass[i], ':');
+  println("user from file:"+list[0]);
+  println("user from file:"+list[1]);
+  user=user.trim();
+  pass=pass.trim();
+  if(pass.equals(list[1].trim())) {
+   
+    if(user.equals(list[0].trim())){
+      //print("Sucess"); 
+       println("returning true"+user+pass);
+        return true;
+    }
+  }
+  else {//print("Fail");
+  } 
+  }
+  
+  return false;
+  }
+
+void exercise1() {
+  stroke(0);
+  fill(0, 200, 240);
+  rect(0, 0, 500, 500);
+ 
+  stroke(250, 240, 0);
+  fill(250, 240, 0);
+  ellipse(175, 250, 75, 75);
+ 
+  stroke(0);
+  fill(0, 200, 0);
+  rect(0, 250, 500, 500);
+  
+  stroke(0);
+  fill(200, 0, 0);
+  rect(300, 200, 100, 75);
+  
+  stroke(0);
+  fill(250);
+  rect(340, 215, 25, 50);
+  
+  fill(0);
+  ellipse(350, 240, 5, 5);
+  
+  stroke(0);
+  fill(0);
+  triangle( 350, 125, 300, 200, 400, 200);
+}
+
+void exercise2() {
+  stroke(0, 250, 0);
+  fill(250);
+  arc(300, 400, 600, 500, 0, PI/2);
+  
+  stroke(0, 250, 250);
+  fill(250);
+  arc(300, 300, 500, 500, 0, PI/2);
+  
+  stroke(0, 0, 250);
+  fill(250);
+  arc(300, 200, 540, 500, 0, PI/4);
+}
+
+void exercise3() {
+int sizea = 10;
+int sizeb = 10;
+int coorX = 150;
+int coorY = 10;
+
+int sizec = 10;
+int sized = 10;
+int coorW = 10;
+int coorQ = 320;
+  
+ noStroke();
+fill(coorX+20, coorY, coorY);
+ellipse(coorX, coorY, sizea, sizeb);
+coorY = coorY + 5;
+sizea = sizea + 2;
+sizeb = sizeb + 2;
+
+noStroke();
+fill(coorW+50, coorQ+200, coorQ+40);
+ellipse(coorW, coorQ, sizec, sized);
+coorW = coorW +5;
+sizec = sizec +2;
+sized = sized +2;
+}
+
+void exercise10(){
+IntDict counts;
+ 
+  background(0);
+  counts = new IntDict();
+
+  String[] lines = loadStrings("/Users/michaelajones/Documents/Processing/hamlet.txt");
+  String allwords = join(lines, "/n");
+  String[] tokens = splitTokens(allwords, "/n ,;.?!");
+  //printArray(tokens)
+  for (int i = 0; i<tokens.length; i++) {
+    String word = tokens[i].toLowerCase();
+    if (counts.hasKey(word)) {
+      counts.increment(word);
+    } else {
+      counts.set(word, 1 );
+    }
+  }
+  String[] keys = counts.keyArray();
+  for (String k : keys) {
+    int count = counts.get(k);
+    textSize(count);
+    float x = random(width);
+    float y = random (height);
+    text (k, x, y);
+  }
+}
